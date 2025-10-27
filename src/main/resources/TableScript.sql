@@ -12,105 +12,67 @@ USE webapp_db;
 
  
 
-CREATE TABLE customers (
+CREATE TABLE customer (
 
-    customer_id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_id VARCHAR(10) PRIMARY KEY,
 
-    name VARCHAR(100),
+    name VARCHAR(100) NOT NULL,
 
-    email VARCHAR(100)
+    email VARCHAR(100) NOT NULL,
+
+    join_date DATE NOT NULL
 
 );
 
 
-
  
 
-CREATE TABLE transactions (
+CREATE TABLE transaction (
 
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
 
-    customer_name VARCHAR(100) NOT NULL,
+    customer_id VARCHAR(10),
 
     amount DECIMAL(10, 2) NOT NULL,
 
-    transaction_date DATE NOT NULL
+    date DATE NOT NULL,
+
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
 
 );
 
 
-
  
 
-CREATE TABLE rewards (
+INSERT INTO customer (customer_id, name, email, join_date) VALUES
 
-    reward_id INT PRIMARY KEY AUTO_INCREMENT,
+('C001', 'Alice Johnson', 'alice@example.com', '2025-01-15'),
 
-    transaction_id INT,
+('C002', 'Bob Smith', 'bob@example.com', '2025-02-20'),
 
-    points_earned INT,
-
-    FOREIGN KEY (transaction_id) REFERENCES transactions(transaction_id)
-
-);
-
-
+('C003', 'Charlie Lee', 'charlie@example.com', '2025-03-10');
 
 
  
 
-INSERT INTO customers (name, email) VALUES
+INSERT INTO transaction (customer_id, amount, date) VALUES
 
-('Alice Johnson', 'alice@example.com'),
+('C001', 120.00, '2025-08-15'),
 
-('Bob Smith', 'bob@example.com'),
+('C001', 75.00, '2025-09-10'),
 
-('Charlie Brown', 'charlie@example.com');
+('C001', 45.00, '2025-10-05'),
 
+('C002', 200.00, '2025-09-20'),
 
+('C002', 99.00, '2025-10-01'),
 
+('C003', 130.00, '2025-08-25'),
 
+('C003', 60.00, '2025-09-15'),
 
- 
+('C003', 110.00, '2025-10-10');
 
-INSERT INTO transactions (customer_name, amount, transaction_date) VALUES
+select * from transaction;
 
-('Alice', 120.00, '2025-07-10'),
-
-('Alice', 75.00, '2025-08-15'),
-
-('Bob', 200.00, '2025-09-05'),
-
-('Bob', 50.00, '2025-07-20');
-
-
-
-
-
-
- 
-
-INSERT INTO rewards (transaction_id, points_earned) VALUES
-
-(1, 90),
-
-(2, 25),
-
-(3, 0),
-
-(4, 250),
-
-(5, 45),
-
-(6, 110);
-
-
-
-
- 
-
-select * from customers;
-
-select * from transactions;
-
-select * from rewards;
+select * from customer;
